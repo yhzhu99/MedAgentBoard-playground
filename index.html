@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedAgentBoard: Benchmarking Multi-Agent Collaboration</title>
+  <link rel="stylesheet" href="./src/css/main.css">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon"> <!-- Optional: Add your favicon -->
+  <script type="module">
+    import Alpine from 'alpinejs';
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+  <style>
+    /* Small style for image placeholder if image is missing */
+    .framework-img-placeholder {
+      background-color: #e0f2fe; /* primary-100 or a light blue/sky */
+      border: 2px dashed #0ea5e9; /* primary-500 or a medium blue/sky */
+      color: #0369a1; /* primary-700 or a dark blue/sky */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.875rem;
+      min-height: 200px; /* Adjust as needed */
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+
+  <div x-data="{ mobileMenuOpen: false }" class="min-h-screen flex flex-col">
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex-shrink-0">
+            <a href="#" class="text-2xl font-bold text-primary-700 hover:text-primary-600 transition-colors">MedAgentBoard</a>
+          </div>
+          <div class="hidden md:flex space-x-6">
+            <a href="#abstract" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Abstract</a>
+            <a href="#framework" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Framework</a>
+            <a href="#findings" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Findings</a>
+            <a href="#resources" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Resources</a>
+            <a href="#citation" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Citation</a>
+          </div>
+          <!-- Mobile menu button -->
+          <div class="-mr-2 flex md:hidden">
+            <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" :aria-expanded="mobileMenuOpen.toString()">
+              <span class="sr-only">Open main menu</span>
+              <svg :class="{'hidden': mobileMenuOpen, 'block': !mobileMenuOpen }" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg :class="{'block': mobileMenuOpen, 'hidden': !mobileMenuOpen }" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div x-show="mobileMenuOpen" 
+           x-transition:enter="transition ease-out duration-200"
+           x-transition:enter-start="opacity-0 scale-95"
+           x-transition:enter-end="opacity-100 scale-100"
+           x-transition:leave="transition ease-in duration-150"
+           x-transition:leave-start="opacity-100 scale-100"
+           x-transition:leave-end="opacity-0 scale-95"
+           class="md:hidden" id="mobile-menu" @click.away="mobileMenuOpen = false">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a href="#abstract" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Abstract</a>
+          <a href="#framework" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Framework</a>
+          <a href="#findings" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Findings</a>
+          <a href="#resources" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Resources</a>
+          <a href="#citation" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Citation</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-br from-primary-700 to-primary-600 text-gray-800 pt-16 pb-20 shadow-xl">
+      <!-- Applied text-gray-800 as new base for header if background is light -->
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">MedAgentBoard</h1> <!-- Will inherit text-gray-800 -->
+        <p class="text-xl sm:text-2xl text-gray-700 mb-8 max-w-3xl">Benchmarking Multi-Agent Collaboration with Conventional Methods for Diverse Medical Tasks</p> <!-- Changed from text-primary-200 -->
+        <div class="flex flex-wrap gap-4 mb-10">
+          <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-primary-700 bg-white hover:bg-primary-50 transition-colors">
+            <!-- Assuming text-primary-700 is dark enough for on-white background -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-14.5z" />
+              <path d="M5.25 2A2.25 2.25 0 003 4.25v11.5A2.25 2.25 0 005.25 18h9.5A2.25 2.25 0 0017 15.75V4.25A2.25 2.25 0 0014.75 2h-9.5zM15.5 4.25v11.5a.75.75 0 01-.75.75h-9.5a.75.75 0 01-.75-.75V4.25a.75.75 0 01.75-.75h9.5a.75.75 0 01.75.75z" />
+              <path d="M8.25 7.846a.75.75 0 000 1.06l2.25 2.25a.75.75 0 001.06-1.06L9.842 8.372l1.718-1.718a.75.75 0 00-1.06-1.06l-2.25 2.25z" />
+            </svg>
+            Read Paper (arXiv)
+          </a>
+          <a href="https://github.com/yhzhu99/MedAgentBoard" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 border border-primary-200 text-base font-medium rounded-md text-gray-800 bg-primary-700/50 hover:bg-primary-700/80 transition-colors">
+            <!-- Changed text-white to text-gray-800 for contrast -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.218.682-.484 0-.238-.009-.868-.013-1.703-2.782.602-3.369-1.34-3.369-1.34-.454-1.151-1.11-1.458-1.11-1.458-.908-.62.069-.608.069-.608 1.003.074 1.532 1.029 1.532 1.029.891 1.529 2.341 1.088 2.91.832.092-.647.349-1.088.635-1.338-2.22-.251-4.555-1.111-4.555-4.935 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.269 2.75 1.025A9.547 9.547 0 0110 4.837a9.544 9.544 0 012.505.336c1.909-1.294 2.748-1.025 2.748-1.025.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.834-2.338 4.681-4.567 4.927.359.307.679.915.679 1.845 0 1.332-.012 2.407-.012 2.734 0 .269.18.579.688.48C17.138 18.163 20 14.417 20 10A10 10 0 0010 0z" clip-rule="evenodd" />
+            </svg>
+            View Code (GitHub)
+          </a>
+        </div>
+        <div class="text-sm text-gray-600 max-w-4xl"> <!-- Changed from text-primary-100 -->
+          <p class="mb-2">
+            Yinghao Zhu<sup>1,2,*</sup>, Ziyi He<sup>2,*</sup>, Haoran Hu<sup>1,*</sup>, Xiaochen Zheng<sup>3,*</sup>, 
+            Xichen Zhang<sup>2</sup>, Zixiang Wang<sup>1</sup>, Weibin Liao<sup>1</sup>, Junyi Gao<sup>4</sup>, 
+            Liantao Ma<sup>1,†</sup>, Lequan Yu<sup>2,†</sup>
+          </p>
+          <p class="mb-1 text-xs"><sup>1</sup>Peking University, <sup>2</sup>The University of Hong Kong, <sup>3</sup>ETH Zurich, <sup>4</sup>The University of Edinburgh</p>
+          <p class="mb-1 text-xs"><sup>*</sup> Equal contribution, <sup>†</sup> Corresponding authors.</p>
+          <p class="mb-1 text-xs">Correspondence: 
+            <a href="mailto:yhzhu99@gmail.com" class="hover:underline">yhzhu99@gmail.com</a>, 
+            <a href="mailto:malt@pku.edu.cn" class="hover:underline">malt@pku.edu.cn</a>, 
+            <a href="mailto:lqyu@hku.hk" class="hover:underline">lqyu@hku.hk</a>
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Abstract -->
+      <section id="abstract" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-3 border-b-2 border-primary-200 pb-3">Abstract</h2>
+        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
+          <p>
+            The rapid advancement of Large Language Models (LLMs) has spurred interest in multi-agent collaboration for tackling complex medical tasks. However, the practical advantages of multi-agent collaboration approaches are not yet fully understood, as existing evaluations often lack generalizability across diverse clinical applications and omit rigorous comparisons against both single LLMs and well-established conventional methods.
+          </p>
+          <p>
+            To address this critical gap, we introduce <strong class="text-primary-600">MedAgentBoard</strong>, a comprehensive benchmark for the systematic evaluation of multi-agent collaboration, single LLM, and conventional approaches. MedAgentBoard encompasses four diverse medical task categories: (1) medical (visual) question answering, (2) lay summary generation, (3) structured Electronic Health Record (EHR) predictive modeling, and (4) clinical workflow automation, utilizing text, medical images, and structured EHR data.
+          </p>
+          <p>
+            Our extensive experiments reveal a nuanced landscape: while multi-agent frameworks demonstrate benefits in specific scenarios, such as enhancing task completeness in clinical workflow automation, they do not consistently outperform advanced single LLMs (e.g., in textual medical QA) or, critically, specialized conventional methods, which maintain superior performance in tasks like medical VQA and EHR-based prediction. MedAgentBoard provides a vital resource and actionable insights, emphasizing the need for a task-specific, evidence-based approach to selecting and developing AI solutions in medicine, and underscoring that the additional complexity of multi-agent collaboration must be carefully justified against its tangible benefits.
+          </p>
+        </div>
+      </section>
+
+      <!-- Framework Overview -->
+      <section id="framework" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">MedAgentBoard Framework</h2>
+        <!-- <div class="mb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <img src="./images/framework.png" alt="MedAgentBoard Framework Overview" class="w-full max-w-5xl mx-auto rounded-md shadow-md framework-img-placeholder">
+          <p class="text-sm text-center mt-3 text-gray-600">Figure 1: The illustrative overview of MedAgentBoard. It is structured around four distinct medical task categories, chosen to represent a diverse range of clinical needs, data modalities, and reasoning complexities. For each task, we aim to compare multi-agent collaboration, single LLM approaches, and strong conventional baselines.</p>
+        </div> -->
+        
+        <!-- Task tabs -->
+        <div x-data="{ activeTab: 'task1' }" class="mt-8">
+          <div class="border-b border-gray-300">
+            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+              <button @click="activeTab = 'task1'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'task1', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'task1' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Medical (Visual) QA
+              </button>
+              <button @click="activeTab = 'task2'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'task2', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'task2' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Lay Summary Generation
+              </button>
+              <button @click="activeTab = 'task3'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'task3', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'task3' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                EHR Predictive Modeling
+              </button>
+              <button @click="activeTab = 'task4'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'task4', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'task4' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Clinical Workflow Automation
+              </button>
+            </nav>
+          </div>
+          
+          <div class="mt-6">
+            <!-- Task 1 Content -->
+            <div x-show="activeTab === 'task1'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Medical (Visual) Question Answering</h3>
+              <p class="mb-6 text-gray-700 leading-relaxed">
+                This task evaluates the ability of AI systems to answer questions based on medical textual knowledge (QA) or a combination of visual and textual inputs (VQA), such as radiological images or pathology slides.
+              </p>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Datasets</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>MedQA</li> <li>PubMedQA</li> <li>PathVQA</li> <li>VQA-RAD</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Evaluations</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Accuracy (multiple-choice)</li> <li>LLM-as-a-judge scoring</li> <li>Clinical relevance</li> <li>Factual consistency</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Methods</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Conventional: BioLinkBERT, GatorTron, M³AE</li> <li>Single LLM: Zero-shot, ICL, CoT</li> <li>Multi-agent: MedAgents, ReConcile</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Task 2 Content -->
+            <div x-show="activeTab === 'task2'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Lay Summary Generation</h3>
+              <p class="mb-6 text-gray-700 leading-relaxed">
+                Lay summary centers on transforming complex medical texts, such as research articles, into versions that are accurate, concise, and readily comprehensible to a non-expert broader audience.
+              </p>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Datasets</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Cochrane</li> <li>eLife and PLOS</li> <li>Med-EASi</li> <li>PLABA</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Evaluations</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>ROUGE-L</li> <li>SARI</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Methods</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Conventional: T5, PEGASUS, BART</li> <li>Single LLM: Zero-shot, ICL</li> <li>Multi-agent: AgentSimp-inspired</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Task 3 Content -->
+            <div x-show="activeTab === 'task3'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">EHR Predictive Modeling</h3>
+              <p class="mb-6 text-gray-700 leading-relaxed">
+                This task focuses on predicting patient-specific clinical outcomes using structured EHR data, including in-hospital patient mortality and 30-day hospital readmission.
+              </p>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Datasets</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>MIMIC-IV</li> <li>Tongji Hospital (TJH)</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Evaluations</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>AUROC</li> <li>AUPRC</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Methods</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Conventional: DT, XGBoost, GRU, LSTM</li> <li>Single LLM: Zero-shot prompting</li> <li>Multi-agent: QA-like frameworks</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Task 4 Content -->
+            <div x-show="activeTab === 'task4'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Clinical Workflow Automation</h3>
+              <p class="mb-6 text-gray-700 leading-relaxed">
+                Clinical workflow automation evaluates AI systems' capabilities in handling routine to complex clinical data analysis tasks that traditionally require significant clinical expertise.
+              </p>
+              <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Datasets</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>MIMIC-IV</li> <li>Tongji Hospital (TJH)</li> <li>100 analytical questions</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Evaluations</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Expert assessment</li> <li>Correctness of data extraction</li> <li>Appropriateness of modeling</li> <li>Quality of visualization</li> <li>Completeness of reports</li>
+                  </ul>
+                </div>
+                <div class="bg-primary-50 p-4 rounded-lg ring-1 ring-primary-200">
+                  <h4 class="font-semibold text-primary-700 mb-2">Methods</h4>
+                  <ul class="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    <li>Single LLM</li> <li>Multi-agent: SmolAgents, OpenManus, Owl</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Findings -->
+      <section id="findings" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Key Findings</h2>
+        
+        <div x-data="{ activeFindings: 'findings1' }" class="mt-6">
+          <div class="border-b border-gray-300">
+            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+              <button @click="activeFindings = 'findings1'" :class="{ 'border-primary-500 text-primary-600': activeFindings === 'findings1', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeFindings !== 'findings1' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Med (V)QA
+              </button>
+              <button @click="activeFindings = 'findings2'" :class="{ 'border-primary-500 text-primary-600': activeFindings === 'findings2', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeFindings !== 'findings2' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Lay Summary
+              </button>
+              <button @click="activeFindings = 'findings3'" :class="{ 'border-primary-500 text-primary-600': activeFindings === 'findings3', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeFindings !== 'findings3' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                EHR Prediction
+              </button>
+              <button @click="activeFindings = 'findings4'" :class="{ 'border-primary-500 text-primary-600': activeFindings === 'findings4', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeFindings !== 'findings4' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Workflow Automation
+              </button>
+            </nav>
+          </div>
+          
+          <div class="mt-6 bg-white p-6 sm:p-8 rounded-lg shadow-xl border border-gray-200">
+            <!-- Findings for Task 1 -->
+            <div x-show="activeFindings === 'findings1'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">Medical QA and VQA Findings</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Medical QA:</strong> LLM-based approaches, particularly with advanced prompting, significantly outperform conventional methods. While multi-agent collaboration frameworks are competitive, highly capable single LLMs can achieve SOTA results.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Medical VQA:</strong> Specialized conventional Vision-Language Models remain dominant, likely due to direct fine-tuning on task-specific image-text pairs.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Single LLM vs. Multi-Agent:</strong> The superiority of multi-agent collaboration over well-prompted single LLMs is not consistently decisive. Given increased overhead, its added value must be carefully justified.</span></li>
+              </ul>
+            </div>
+            
+            <!-- Findings for Task 2 -->
+            <div x-show="activeFindings === 'findings2'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">Lay Summary Generation Findings</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Conventional Models Excel:</strong> Fine-tuned sequence-to-sequence models consistently achieve high scores on automated metrics across various datasets.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>LLM and Multi-Agent Performance:</strong> While single LLMs can produce fluent summaries, they, along with multi-agent frameworks, do not consistently surpass fine-tuned conventional models on automated metrics.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Multi-agent Shows Limited Gains:</strong> The tested multi-agent approach did not demonstrate a clear advantage over well-prompted single LLMs or leading conventional methods.</span></li>
+              </ul>
+            </div>
+            
+            <!-- Findings for Task 3 -->
+            <div x-show="activeFindings === 'findings3'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">EHR Predictive Modeling Findings</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Conventional Methods Reign Supreme:</strong> Specialized conventional models (sequence-based DL, ensemble methods) exhibit significantly superior predictive performance.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Advanced LLMs Show Potential but Lag:</strong> SOTA LLMs demonstrate notable zero-shot capabilities but do not match trained conventional models.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Multi-Agent Offers Limited Gains:</strong> Multi-agent systems generally improve over their base LLM but don't consistently outperform the best single LLMs or conventional methods.</span></li>
+              </ul>
+            </div>
+            
+            <!-- Findings for Task 4 -->
+            <div x-show="activeFindings === 'findings4'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">Clinical Workflow Automation Findings</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Multi-agent Systems Improve Completeness:</strong> Frameworks like SmolAgent and OpenManus generally achieve higher rates of task completion, particularly in generating modeling code, visualizations, and reports.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Overall Correctness Remains Low:</strong> Despite improvements in completeness, the rate of "Correct" end-to-end solutions is modest across all methods.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Data Extraction Most Successfully Automated:</strong> Basic data manipulation tasks see higher success rates, with performance degrading for more complex workflow stages.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section id="resources" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Resources</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              Paper
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Read our full research paper with detailed analysis and results on arXiv.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              View Paper
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+          
+          <a href="https://github.com/yhzhu99/MedAgentBoard" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+              </svg>
+              Code
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Access our GitHub repository with full implementation of benchmarks and methods.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              View on GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+          
+          <a href="https://github.com/yhzhu99/MedAgentBoard" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5-3.75h-1.875a.375.375 0 0 0-.375.375v11.25c0 .098.03.192.083.275.053.083.13.15.217.188H12M3.75 6.375h1.875a.375.375 0 0 1 .375.375v11.25c0 .098-.03.192-.083.275-.053.083-.13.15-.217.188H12" />
+              </svg>
+              Data & Prompts
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Access datasets, prompts, and evaluation frameworks used in our research.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              Access Data
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Citation -->
+      <section id="citation" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Citation</h2>
+        <div class="bg-gray-800 text-gray-200 p-6 rounded-lg font-mono text-sm overflow-x-auto shadow-lg">
+          <pre class="whitespace-pre-wrap break-words" aria-label="BibTeX citation code">@article{zhu2025medagentboard,
+  title={Benchmarking Multi-Agent Collaboration with Conventional Methods for Diverse Medical Tasks},
+  author={Zhu, Yinghao and He, Ziyi and Hu, Haoran and Zheng, Xiaochen and Zhang, Xichen and Wang, Zixiang and Liao, Weibin and Gao, Junyi and Ma, Liantao and Yu, Lequan},
+  journal={arXiv preprint},
+  year={2025}
+  % TODO: Add arXiv ID e.g., archivePrefix={arXiv}, eprint={YOUR_ARXIV_ID}
+}</pre>
+        </div>
+         <button 
+            @click="navigator.clipboard.writeText(document.querySelector('#citation pre').innerText); alert('Citation copied to clipboard!')"
+            class="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+            </svg>
+            Copy Citation
+          </button>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-12">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Contact (Corresponding Authors)</h3>
+            <p class="mb-2"><a href="mailto:malt@pku.edu.cn" class="hover:text-primary-300 transition-colors">Liantao Ma (Peking University)</a></p>
+            <p><a href="mailto:lqyu@hku.hk" class="hover:text-primary-300 transition-colors">Lequan Yu (The University of Hong Kong)</a></p>
+             <p class="mt-2"><a href="mailto:yhzhu99@gmail.com" class="hover:text-primary-300 transition-colors">Yinghao Zhu (First Author)</a></p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Affiliations</h3>
+            <ul class="space-y-2 text-sm">
+              <li>Peking University</li>
+              <li>The University of Hong Kong</li>
+              <li>ETH Zurich</li>
+              <li>The University of Edinburgh</li>
+            </ul>
+          </div>
+           <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#abstract" class="hover:text-primary-300 transition-colors">Abstract</a></li>
+              <li><a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Paper (arXiv)</a></li>
+              <li><a href="https://github.com/yhzhu99/MedAgentBoard" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Code (GitHub)</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
+          <p>© 2025 MedAgentBoard Authors. All rights reserved.</p>
+          <p class="mt-1">Website design by AI (via human collaborator). Built with Tailwind CSS & Alpine.js.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

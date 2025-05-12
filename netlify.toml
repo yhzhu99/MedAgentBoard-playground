@@ -1,0 +1,11 @@
+# netlify.toml
+
+# Base build settings
+[build]
+  command = "npm run build" # The command to build your site
+  publish = "dist"          # The directory with the built files
+  
+[build.environment]
+  # Optional: Specify Node.js version if you need a specific one.
+  # Netlify uses v18 by default, which should be fine.
+  # NODE_VERSION = "22"
