@@ -83,7 +83,7 @@
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">MedAgentBoard</h1> <!-- Will inherit text-gray-800 -->
         <p class="text-xl sm:text-2xl text-gray-700 mb-8 max-w-3xl">Benchmarking Multi-Agent Collaboration with Conventional Methods for Diverse Medical Tasks</p> <!-- Changed from text-primary-200 -->
         <div class="flex flex-wrap gap-4 mb-10">
-          <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-primary-700 bg-white hover:bg-primary-50 transition-colors">
+          <a href="https://arxiv.org/abs/2505.12371" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-primary-700 bg-white hover:bg-primary-50 transition-colors">
             <!-- Assuming text-primary-700 is dark enough for on-white background -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
               <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-14.5z" />
@@ -100,10 +100,10 @@
             View Code (GitHub)
           </a>
         </div>
-        <div class="text-sm text-gray-600 max-w-4xl"> <!-- Changed from text-primary-100 -->
+        <div class="text-sm text-gray-600 max-w-4xl">
           <p class="mb-2">
             Yinghao Zhu<sup>1,2,*</sup>, Ziyi He<sup>2,*</sup>, Haoran Hu<sup>1,*</sup>, Xiaochen Zheng<sup>3,*</sup>, 
-            Xichen Zhang<sup>2</sup>, Zixiang Wang<sup>1</sup>, Weibin Liao<sup>1</sup>, Junyi Gao<sup>4</sup>, 
+            Xichen Zhang<sup>2</sup>, Zixiang Wang<sup>1</sup>, Junyi Gao<sup>4</sup>, 
             Liantao Ma<sup>1,†</sup>, Lequan Yu<sup>2,†</sup>
           </p>
           <p class="mb-1 text-xs"><sup>1</sup>Peking University, <sup>2</sup>The University of Hong Kong, <sup>3</sup>ETH Zurich, <sup>4</sup>The University of Edinburgh</p>
@@ -138,10 +138,10 @@
       <!-- Framework Overview -->
       <section id="framework" class="mb-16 scroll-mt-20">
         <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">MedAgentBoard Framework</h2>
-        <!-- <div class="mb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-          <img src="./images/framework.png" alt="MedAgentBoard Framework Overview" class="w-full max-w-5xl mx-auto rounded-md shadow-md framework-img-placeholder">
-          <p class="text-sm text-center mt-3 text-gray-600">Figure 1: The illustrative overview of MedAgentBoard. It is structured around four distinct medical task categories, chosen to represent a diverse range of clinical needs, data modalities, and reasoning complexities. For each task, we aim to compare multi-agent collaboration, single LLM approaches, and strong conventional baselines.</p>
-        </div> -->
+        <div class="mb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <img src="./images/framework.png" alt="MedAgentBoard Framework Overview" class="w-full max-w-8xl mx-auto rounded-md shadow-md framework-img-placeholder">
+          <p class="text-sm text-center mt-3 text-gray-600">The illustrative overview of MedAgentBoard. It is structured around four distinct medical task categories, chosen to represent a diverse range of clinical needs, data modalities, and reasoning complexities. For each task, we aim to compare multi-agent collaboration, single LLM approaches, and strong conventional baselines.</p>
+        </div>
         
         <!-- Task tabs -->
         <div x-data="{ activeTab: 'task1' }" class="mt-8">
@@ -348,7 +348,7 @@
       <section id="resources" class="mb-16 scroll-mt-20">
         <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Resources</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+          <a href="https://arxiv.org/abs/2505.12371" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
             <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
@@ -397,16 +397,15 @@
         <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Citation</h2>
         <div class="bg-gray-800 text-gray-200 p-6 rounded-lg font-mono text-sm overflow-x-auto shadow-lg">
           <pre class="whitespace-pre-wrap break-words" aria-label="BibTeX citation code">@article{zhu2025medagentboard,
-  title={Benchmarking Multi-Agent Collaboration with Conventional Methods for Diverse Medical Tasks},
-  author={Zhu, Yinghao and He, Ziyi and Hu, Haoran and Zheng, Xiaochen and Zhang, Xichen and Wang, Zixiang and Liao, Weibin and Gao, Junyi and Ma, Liantao and Yu, Lequan},
-  journal={arXiv preprint},
+  title={{MedAgentBoard}: Benchmarking Multi-Agent Collaboration with Conventional Methods for Diverse Medical Tasks},
+  author={Zhu, Yinghao and He, Ziyi and Hu, Haoran and Zheng, Xiaochen and Zhang, Xichen and Wang, Zixiang and Gao, Junyi and Ma, Liantao and Yu, Lequan},
+  journal={arXiv preprint arXiv:2505.12371},
   year={2025}
-  % TODO: Add arXiv ID e.g., archivePrefix={arXiv}, eprint={YOUR_ARXIV_ID}
 }</pre>
         </div>
-         <button 
+          <button 
             @click="navigator.clipboard.writeText(document.querySelector('#citation pre').innerText); alert('Citation copied to clipboard!')"
-            class="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+            class="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
             </svg>
@@ -420,10 +419,12 @@
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 class="text-lg font-semibold text-white mb-4">Contact (Corresponding Authors)</h3>
-            <p class="mb-2"><a href="mailto:malt@pku.edu.cn" class="hover:text-primary-300 transition-colors">Liantao Ma (Peking University)</a></p>
+            <h3 class="text-lg font-semibold text-white mb-4">Contact</h3>
+            <ul class="space-y-2 text-sm">
+            <p><a href="mailto:yhzhu99@gmail.com" class="hover:text-primary-300 transition-colors">Yinghao Zhu (First Author)</a></p>
+            <p><a href="mailto:malt@pku.edu.cn" class="hover:text-primary-300 transition-colors">Liantao Ma (Peking University)</a></p>
             <p><a href="mailto:lqyu@hku.hk" class="hover:text-primary-300 transition-colors">Lequan Yu (The University of Hong Kong)</a></p>
-             <p class="mt-2"><a href="mailto:yhzhu99@gmail.com" class="hover:text-primary-300 transition-colors">Yinghao Zhu (First Author)</a></p>
+            </ul>
           </div>
           <div>
             <h3 class="text-lg font-semibold text-white mb-4">Affiliations</h3>
@@ -437,15 +438,13 @@
            <div>
             <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
             <ul class="space-y-2 text-sm">
-              <li><a href="#abstract" class="hover:text-primary-300 transition-colors">Abstract</a></li>
-              <li><a href="https://arxiv.org/abs/YOUR_ARXIV_ID" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Paper (arXiv)</a></li>
+              <li><a href="https://arxiv.org/abs/2505.12371" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Paper (arXiv)</a></li>
               <li><a href="https://github.com/yhzhu99/MedAgentBoard" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Code (GitHub)</a></li>
             </ul>
           </div>
         </div>
         <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
           <p>© 2025 MedAgentBoard Authors. All rights reserved.</p>
-          <p class="mt-1">Website design by AI (via human collaborator). Built with Tailwind CSS & Alpine.js.</p>
         </div>
       </div>
     </footer>
